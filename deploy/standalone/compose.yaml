@@ -84,6 +84,12 @@ services:
     image: nginx:1.28-alpine@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236
     expose:
       - "80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:80/ >/dev/null || exit 1"]
+      interval: 15s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
     # Written by init from deploy/standalone/nginx.conf in the image. nocopy
     # keeps nginx's own default.conf (root-owned) out of the shared volume.
     volumes:
